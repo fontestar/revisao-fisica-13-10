@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS
+   Sistema de estudos — todas as cores, raios e fontes vivem
+   aqui. Para trocar a identidade visual da plataforma inteira,
+   altere apenas os valores abaixo.
+   ============================================================ */
+/*
+ * DIREÇÃO DE ARTE — REVISÃO DE FÍSICA
+ *
+ * Conceito: caderno de laboratório. A paleta parte de um verde
+ * petróleo profundo (instrumentos, medida, rigor experimental)
+ * sobre um papel neutro levemente quente. Um cobre discreto marca
+ * destaques, como a anotação de um resultado à margem da página.
+ * O fundo pontilhado (em vez de quadriculado) lembra papel de
+ * laboratório e reforça a ideia de medição.
+ *
+ * Para trocar a identidade visual inteira, altere só os valores
+ * abaixo — nenhum componente tem cor escrita à mão.
+ */
+@theme {
+  --font-display: var(--font-sora), "Segoe UI", sans-serif;
+  --font-sans: var(--font-inter), "Segoe UI", sans-serif;
+
+  /* Fundo e superfícies — papel de laboratório */
+  --color-bg: #f7f5f1;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f0ede5;
+  --color-surface-sunken: #e8e3d8;
+
+  /* Texto */
+  --color-ink: #1a211f;
+  --color-ink-soft: #4b534f;
+  --color-ink-faint: #797f78;
+
+  /* Bordas */
+  --color-border: #e3ded1;
+  --color-border-strong: #cbc4b2;
+
+  /* Marca — verde petróleo (medida, instrumento, precisão) */
+  --color-brand: #0f4c52;
+  --color-brand-strong: #0a3339;
+  --color-brand-soft: #e1eef0;
+  --color-brand-contrast: #f3f9f9;
+
+  /* Destaque secundário — cobre (resultado anotado à margem) */
+  --color-accent: #b4541f;
+  --color-accent-soft: #f7e7da;
+
+  /* Estados */
+  --color-success: #2f7d5e;
+  --color-success-soft: #e3f1ea;
+  --color-error: #b0433a;
+  --color-error-soft: #f8e6e3;
+  --color-warning: #a8761a;
+  --color-warning-soft: #f7eed9;
+
+  --color-brand-50: #eef4f4;
+  --color-brand-100: #d8e8ea;
+  --color-brand-600: #0f4c52;
+  --color-brand-700: #0a3339;
+
+  --radius-card: 0.85rem;
+  --radius-control: 0.55rem;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-optical-sizing: auto;
+}
+
+/* Matemática (KaTeX) — alinhamento fino com a tipografia da plataforma */
+.katex-inline {
+  font-size: 1em;
+}
+.katex-display-block {
+  padding: 0.35rem 0;
+}
+.katex-display-block .katex-display {
+  margin: 0;
+}
+
+/* Motivo decorativo discreto: papel pontilhado, usado só no Hero */
+.bg-dot-grid {
+  background-image: radial-gradient(var(--color-border-strong) 1.1px, transparent 1.1px);
+  background-size: 22px 22px;
+}
+
+::selection {
+  background-color: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 999px;
+}
+
+/* Utilitário para evitar overflow horizontal acidental */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Flip card (flashcards) */
+.flip-scene {
+  perspective: 1600px;
+}
+.flip-card {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+.flip-card.is-flipped {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  backface-visibility: hidden;
+}
+.flip-face-back {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card {
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ============================================================
+   EASTER EGG (página inicial) · usado só em components/easter-egg.tsx
+   ============================================================ */
+@keyframes egg-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.egg-reveal {
+  animation: egg-pop 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes egg-star {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-18deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08) rotate(4deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+.egg-star {
+  animation: egg-star 0.6s 0.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes egg-fall {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, -6vh, 0) rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift, 0px), 106vh, 0) rotate(var(--spin, 360deg));
+  }
+}
+.egg-piece {
+  position: absolute;
+  top: 0;
+  animation-name: egg-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.6, 0.4, 1);
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .egg-reveal,
+  .egg-star {
+    animation: none;
+  }
+  .egg-piece {
+    display: none;
+  }
+}
